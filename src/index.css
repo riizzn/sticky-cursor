@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@utility header {
+  @apply fixed flex w-full justify-end p-[10px] box-border cursor-pointer mix-blend-difference z-[1];
+}
+
+@utility burger {
+  @apply relative flex flex-col gap-2 p-[30px] pointer-events-none;
+
+  &::before,
+  &::after {
+    content: "";
+    @apply block w-[30px] h-[2px] bg-black mix-blend-difference;
+  }
+}
