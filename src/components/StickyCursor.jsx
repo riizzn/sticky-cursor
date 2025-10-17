@@ -7,6 +7,7 @@ const StickyCursor = ({ stickyElement }) => {
   const mouse = useRef({ x: 0, y: 0 });
   const circle = useRef(null);
   const animationId = useRef(null);
+ 
 
   const manageMouseMove = (e) => {
     const { clientX, clientY } = e;
@@ -25,28 +26,27 @@ const StickyCursor = ({ stickyElement }) => {
     });
   };
   const animate = () => {
-    animationId.current = requestAnimationFrame(animate);
+    if (isHovered) {
+      const { left, top, width, height } =
+        stickyElement.current.getBoundingClientRect();
 
-    moveCircle(mouse.current.x, mouse.current.y);
-  };
-  const manageMouseOver = (e) => {
-    const { clientX, clientY } = e;
+      const centerX = left + width / 2;
+      const centerY = top + height / 2;
+      const targetX = centerX + (mouse.current.x - centerX) * 0.1;
+      const targetY = centerY + (mouse.current.y - centerY) * 0.1;
 
-    setIsHovered(true);
-    if (animationId.current) {
-      cancelAnimationFrame(animationId.current);
+      moveCircle(targetX, targetY);
+    } else {
+      moveCircle(mouse.current.x, mouse.current.y);
     }
-    const { left, top, width, height } =
-      stickyElement.current.getBoundingClientRect();
-    const di = {
-      x: clientX - (left + width / 2),
-      y: clientY - (top + height / 2),
-    };
-    moveCircle(((left + width / 2)+di.x*0.01), (top + height / 2)+di.y*0.01);
+   animationId.current = window.requestAnimationFrame(animate);
+  };
+  const manageMouseOver = () => {
+    setIsHovered(true);
   };
   const manageMouseLeave = () => {
     setIsHovered(false);
-    animate();
+    
   };
   useEffect(() => {
     const element = stickyElement.current;
@@ -61,10 +61,11 @@ const StickyCursor = ({ stickyElement }) => {
       element.removeEventListener("mouseover", manageMouseOver);
       element.removeEventListener("mouseleave", manageMouseLeave);
       if (animationId.current) {
+
         cancelAnimationFrame(animationId.current);
       }
     };
-  }, []);
+  }, [isHovered]);
   return (
     <div
       ref={circle}
