@@ -1,4 +1,7 @@
 @import "tailwindcss";
+body {
+  background-color: white;
+}
 @utility header {
   @apply fixed flex w-full justify-end p-[10px] box-border cursor-pointer mix-blend-difference z-[1];
 }
@@ -9,6 +12,6 @@
   &::before,
   &::after {
     content: "";
-    @apply block w-[30px] h-[2px] bg-black mix-blend-difference;
+    @apply block w-[30px] h-[2px] bg-white mix-blend-difference;
   }
 }
