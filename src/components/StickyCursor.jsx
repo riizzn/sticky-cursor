@@ -42,7 +42,7 @@ const StickyCursor = ({ stickyElement }) => {
       x: clientX - (left + width / 2),
       y: clientY - (top + height / 2),
     };
-    moveCircle(((left + width / 2)+di.x*0.01), (top + height / 2)+di*0.01);
+    moveCircle(((left + width / 2)+di.x*0.01), (top + height / 2)+di.y*0.01);
   };
   const manageMouseLeave = () => {
     setIsHovered(false);
